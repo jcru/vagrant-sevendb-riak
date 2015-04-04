@@ -22,6 +22,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # config.vm.network "forwarded_port", guest: 80, host: 8080
+  # Riak Server 1 HTTP interface will bind to this port
+  config.vm.network :forwarded_port, guest: 10018, host: 10018, auto_correct: true
+  # Riak Server 2 HTTP interface will bind to this port
+  config.vm.network :forwarded_port, guest: 10028, host: 10028, auto_correct: true
+  # Riak Server 3 HTTP interface will bind to this port
+  config.vm.network :forwarded_port, guest: 10038, host: 10038, auto_correct: true
 
 
   # If true, then any SSH connections made will enable agent forwarding.
@@ -55,6 +61,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.customize ["modifyvm", :id, "--memory", 1024, "--cpus", 1]
   end
 
+  #TODO Have not tested this yet
   # Configs for provisioning to Rackspace Cloud
   config.vm.provider :rackspace do |rs|
     rs.username = vconfig['rax_username']
